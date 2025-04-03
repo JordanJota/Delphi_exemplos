@@ -74,9 +74,10 @@ else if Tipo.Text = '' then
     ShowMessage('Informe o tipo de usuario');
     Tipo.SetFocus;
   end
-else if Trim(Senha.Text) = '' then
+
+else if (Trim(Senha.Text) = '') or (Length(Trim(Senha.Text)) < 4)  then
   begin
-    ShowMessage('Informe uma senha');
+    ShowMessage('O campo senha nao pode estar vazio e tem que conter no minimo 4 caractere');
     Senha.SetFocus;
   end
 else if Trim(SenhaConfirmar.Text) = '' then
@@ -84,6 +85,7 @@ else if Trim(SenhaConfirmar.Text) = '' then
     ShowMessage('Confirme sua senha');
     SenhaConfirmar.SetFocus;
   end
+
 else if Senha.Text <> SenhaConfirmar.Text then
   begin
     ShowMessage('Senha nao coincidem');
