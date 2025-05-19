@@ -1,12 +1,9 @@
 unit Unit1;
-
 interface
-
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,System.Generics.Collections,Vcl.ExtCtrls,System.RegularExpressions;
-
 type
   TForm1 = class(TForm)
     Label1: TLabel;
@@ -65,6 +62,7 @@ type
     Label22: TLabel;
     Label23: TLabel;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure ComboBoxSelect(Sender: TObject);
   private
     lista : TList<TComboBox>;
@@ -73,17 +71,11 @@ type
   public
     { Public declarations }
   end;
-
 var
   Form1: TForm1;
-
 implementation
-
 {$R *.dfm}
-
 procedure TForm1.MudaCorDoGroupBox();
-
-
 begin
   GroupBox1.ParentBackground := False;
   GroupBox2.ParentBackground := False;
@@ -484,7 +476,6 @@ begin
   else
     Label19.Font.Color := clWindowText;
 
-
   //vaidador
   if (ComboBox1.Text = 'azul') and (ComboBox6.Text = 'vermelha') and (ComboBox11.Text = 'preta') and (ComboBox16.Text = 'branca') and (ComboBox21.Text = 'verde')
     and (ComboBox2.Text = 'francês') and (ComboBox7.Text = 'grego') and (ComboBox12.Text = 'brasileiro') and (ComboBox17.Text = 'ingles') and (ComboBox22.Text = 'espanhol')
@@ -492,38 +483,30 @@ begin
     and (ComboBox4.Text = '05:00') and (ComboBox9.Text = '06:00') and (ComboBox14.Text = '08:00') and (ComboBox19.Text = '09:00') and (ComboBox24.Text = '07:00')
     and (ComboBox5.Text = 'Santos') and (ComboBox10.Text = 'Hamburgo') and (ComboBox15.Text = 'Manila') and (ComboBox20.Text = 'Macau') and (ComboBox25.Text = 'Rotterdam') then
   ShowMessage('Parabéns! Você concluiu o teste de Eintes com sucesso!');
-
-
-
-
 end;
 
 procedure TForm1.ComboBoxSelect(Sender: TObject);
 var
-combobox : TComboBox;
-indice,i : Integer;
-
+  combobox : TComboBox;
+  indice,i : Integer;
 
 begin
-
-combobox := TComboBox(Sender);
-indice := lista.IndexOf(combobox);
-
-for i := 0 to lista.Count - 1  do
-  begin
-  if (lista[i].Text = combobox.Text) and (lista[i].Text <> '' ) and (i <> indice) then
+  combobox := Sender as TComboBox;
+  indice := lista.IndexOf(combobox);
+  for i := 0 to lista.Count - 1  do
     begin
-      ShowMessage('nao pode ser colocado o valor');
-      combobox.ItemIndex := 0;
-      Exit;
+    if (lista[i].Text = combobox.Text) and (lista[i].Text <> '' )  and (i <> indice)  then
+      begin
+//      ShowMessage('nao pode ser colocado o valor');
+        combobox.ItemIndex := 0;
+        Exit;
     end
-  end;
-  MudaCorDoGroupBox();
+    end;
+  if ((combobox = ComboBox1) or (combobox = ComboBox6) or (combobox = ComboBox11) or (combobox = ComboBox16) or (combobox = ComboBox21)) then
+    MudaCorDoGroupBox();
+
   VerificarRespostas();
 end;
-
-
-
 
 procedure TForm1.FormCreate(Sender: TObject);
 var
@@ -589,7 +572,6 @@ begin
   ComboBox15.Items.Text := ComboBox5.Items.Text;
   ComboBox20.Items.Text := ComboBox5.Items.Text;
   ComboBox25.Items.Text := ComboBox5.Items.Text;
-
   ComboBox1.OnSelect := ComboBoxSelect;
   ComboBox2.OnSelect := ComboBoxSelect;
   ComboBox3.OnSelect := ComboBoxSelect;
@@ -615,7 +597,10 @@ begin
   ComboBox23.OnSelect := ComboBoxSelect;
   ComboBox24.OnSelect := ComboBoxSelect;
   ComboBox25.OnSelect := ComboBoxSelect;
-
-
 end;
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+ lista.Free;
+end;
+
 end.

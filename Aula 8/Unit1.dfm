@@ -1,10 +1,15 @@
 object Form1: TForm1
   Left = 0
   Top = 0
+  Align = alClient
   Caption = 'Form1'
   ClientHeight = 578
   ClientWidth = 1012
   Color = clBtnFace
+  Constraints.MaxHeight = 617
+  Constraints.MaxWidth = 1028
+  Constraints.MinHeight = 617
+  Constraints.MinWidth = 1028
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
