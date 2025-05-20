@@ -17,6 +17,7 @@ object Form1: TForm1
   Font.Style = []
   ParentBiDiMode = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object Edit1: TEdit
     Left = 160

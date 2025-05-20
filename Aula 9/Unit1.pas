@@ -10,6 +10,7 @@ type
     BitBtn1: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     lista_button: TList<TButton>;
     lista_opcoes: TList<TButton>;
@@ -153,6 +154,16 @@ begin
   BitBtn1.Visible := False;
 end;
 
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+lista_button.Free;
+lista_opcoes.Free;
+lista_label.Free;
+
+
+
+end;
+
 procedure TForm1.Selecionar_letra(Sender: TObject);
 var
 I: Integer;
@@ -165,18 +176,21 @@ BitBtn1.Visible := True;
 lista_opcoes[0].Enabled := False;
 Edit1.Text := Edit1.Text + Boton.Caption;
 
-for I := 0 to lista_label.Count - 1 do
- begin
-   if (Edit1.Text = Lista_palavras[I]) and (Lista_palavras[I] <> lista_label[I].Caption) then
-    begin
-    lista_label[I].Caption :=  Lista_palavras[I];
-    Acertos := Acertos + 1;
-    if Acertos = 30 then
-      lista_opcoes[1].Enabled:=False;
-    BitBtn1Click(BitBtn1);
-    Exit;
-    end;
- end;
+if Length(Edit1.Text) > 1 then
+begin
+  for I := 0 to lista_label.Count - 1 do
+   begin
+     if (Edit1.Text = Lista_palavras[I]) and (Lista_palavras[I] <> lista_label[I].Caption) then
+      begin
+      lista_label[I].Caption :=  Lista_palavras[I];
+      Acertos := Acertos + 1;
+      if Acertos = 30 then
+        lista_opcoes[1].Enabled:=False;
+      BitBtn1Click(BitBtn1);
+      Exit;
+      end;
+   end;
+end
 end;
 
 procedure TForm1.Trocar(Sender: TObject);
